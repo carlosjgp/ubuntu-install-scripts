@@ -36,3 +36,7 @@ rm -Rf ~/.cargo
 echo Install fuzzy finder
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
+
+echo Import Vim configuration
+curl -s https://raw.githubusercontent.com/milesbxf/dotfiles/master/nvim/.vimrc > ~/.vimrc
+curl -s https://raw.githubusercontent.com/milesbxf/dotfiles/master/nvim/init.vim > ~/init.vim
