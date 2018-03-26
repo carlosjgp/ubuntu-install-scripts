@@ -10,4 +10,4 @@ curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/miniku
 
 echo Kubectl aliases
 mkdir -p ~/aliases
-wget https://rawgit.com/ahmetb/kubectl-alias/master/.kubectl_aliases -P ~/aliases
+curl -s https://raw.githubusercontent.com/ahmetb/kubectl-alias/master/.kubectl_aliases > ~/aliases/kubectl_aliases
