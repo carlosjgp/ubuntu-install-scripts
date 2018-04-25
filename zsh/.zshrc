@@ -4,11 +4,22 @@ export TERM="xterm-256color"
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+# Add python to PATH
+export PATH=$PATH:/usr/bin
+
 # For custom Go lang location
 # export GOROOT=$HOME/go1.X
 # export PATH=$PATH:$GOROOT/bin
 export PATH=$PATH:/usr/local/go/bin
 
+# Crunch tooling
+export PATH=$PATH:$HOME/tools
+export PATH=$PATH:$HOME/dev/crunch/platform-cli-utils/local_dev_scripts
+export PATH=$PATH:$HOME/dev/crunch/helm-charts/scripts
+
+# Python
+PYENV_ROOT="$HOME/.pyenv"
+PATH="$PYENV_ROOT/bin:$PATH"
 
 # Path to your oh-my-zsh installation.
 export ZSH=/home/carlosjgp/.oh-my-zsh
@@ -90,6 +101,8 @@ plugins=(
 	zsh-syntax-highlighting 
 	alias-tips 
 	docker-aliases
+	history
+	history-substring-search
 	)
 
 source $ZSH/oh-my-zsh.sh
@@ -127,5 +140,7 @@ for f in $(exa -a ~/aliases); do
 done
 alias ls="exa -lh --time-style iso"
 alias le="ls --tree"
+alias ecr-login='$(aws ecr get-login --no-include-email)'
+
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
