@@ -3,6 +3,9 @@
 # Go to home
 cd ~
 
+echo Install GoLang
+wget -q -O - https://dl.google.com/go/go1.10.1.linux-amd64.tar.gz | tar xz -C ~/ &
+
 echo Configure git
 curl -s https://gist.githubusercontent.com/adeekshith/cd4c95a064977cdc6c50/raw/bb54233668f5c56c1a19f0ce8faf3a89eff8c678/.git-commit-template.txt > ~/.gitmessage
 curl -s https://raw.githubusercontent.com/carlosjgp/ubuntu-install-scripts/master/git/.gitconfig > ~/.gitconfig
@@ -16,14 +19,12 @@ curl -s https://raw.githubusercontent.com/carlosjgp/ubuntu-install-scripts/maste
 
 # Install Powerline fonts
 # clone
-git clone https://github.com/powerline/fonts.git --depth=1
+#git clone https://github.com/powerline/fonts.git --depth=1
 # install
-cd fonts
+#cd fonts
+git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git ~/nerd-fonts
+cd nerd-fonts
 ./install.sh
-# clean-up a bit
-cd ..
-rm -rf fonts
-
 
 # https://github.com/ogham/exa#installation
 echo Install Rust needed by EXA
