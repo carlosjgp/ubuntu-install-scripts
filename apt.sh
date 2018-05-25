@@ -13,6 +13,8 @@ echo Install a lot of packages
 sudo apt install -y \
   neovim \
   jq \
+  libgit2-dev \
+  cmake \
   httpie \
   virtualbox \
   virtualbox-ext-pack \
@@ -26,6 +28,11 @@ sudo apt install oracle-java8-installer oracle-java8-set-default -y
 echo Install fancy search commands
 sudo snap install rg
 
+# https://github.com/ogham/exa#installation
+echo "Install cargo & exa"
+sudo snao install cargo
+cargo install exa
+
 echo Install Docker CE
 sudo apt install -y \
     apt-transport-https \
@@ -38,6 +45,11 @@ sudo add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
    $(lsb_release -cs) \
    stable"
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   edge"
+
 sudo apt-get update
 sudo apt-get install docker-ce
 

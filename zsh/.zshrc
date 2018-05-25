@@ -8,14 +8,14 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$PATH:/usr/bin
 
 # For custom Go lang location
-# export GOROOT=$HOME/go1.X
-# export PATH=$PATH:$GOROOT/bin
-export PATH=$PATH:/usr/local/go/bin
+export GOROOT=$HOME/go1.X
+export PATH=$PATH:$GOROOT/bin
+# export PATH=$PATH:/usr/local/go/bin
 
 # Crunch tooling
 export PATH=$PATH:$HOME/tools
-export PATH=$PATH:$HOME/dev/crunch/platform-cli-utils/local_dev_scripts
-export PATH=$PATH:$HOME/dev/crunch/helm-charts/scripts
+export PATH=$PATH:$HOME/dev/platform-cli-utils/local_dev_scripts
+export PATH=$PATH:$HOME/dev/helm-charts/scripts
 
 # Python
 PYENV_ROOT="$HOME/.pyenv"
@@ -28,10 +28,9 @@ export ZSH=/home/carlosjgp/.oh-my-zsh
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="powerlevel9k/powerlevel9k"
-eval `dircolors ~/.dir_colors/dircolors`
 
 # Powerlevel9k config
-WERLEVEL9K_DISABLE_RPROMPT=true
+POWERLEVEL9K_DISABLE_RPROMPT=true
 POWERLEVEL9K_COLOR_SCHEME=dark
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(battery custom_kube_cluster vcs newline dir)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time)

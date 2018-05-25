@@ -4,9 +4,9 @@
 [core]
 		editor = vim
 		autocrlf = input
-		excludesfile = $HOME/.gitignore-global
+		excludesfile = ~/.gitignore-global
 [commit]
-		template = $HOME/.gitmessage
+		template = ~/.gitmessage
 [push]
 		default = current
 [alias]

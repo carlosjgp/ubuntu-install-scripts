@@ -26,15 +26,6 @@ git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git ~/nerd-fonts
 cd nerd-fonts
 ./install.sh
 
-# https://github.com/ogham/exa#installation
-echo Install Rust needed by EXA
-curl https://sh.rustup.rs -sSf | sh
-echo Export cargo bynary
-export PATH="$PATH:~/.cargo/bin"
-
-cargo install exa
-rm -Rf ~/.cargo
-
 echo Install fuzzy finder
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
