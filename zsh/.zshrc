@@ -30,6 +30,7 @@ export ZSH=/home/carlosjgp/.oh-my-zsh
 ZSH_THEME="powerlevel9k/powerlevel9k"
 
 # Powerlevel9k config
+POWERLEVEL9K_MODE='awesome-fontconfig'
 POWERLEVEL9K_DISABLE_RPROMPT=true
 POWERLEVEL9K_COLOR_SCHEME=dark
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(battery custom_kube_cluster vcs newline dir)
