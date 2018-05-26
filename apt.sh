@@ -11,6 +11,8 @@ sudo apt upgrade -y
 
 echo Install a lot of packages
 sudo apt install -y \
+  git-core \
+  zsh \
   neovim \
   jq \
   libgit2-dev \
