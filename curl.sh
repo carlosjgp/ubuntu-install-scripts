@@ -22,9 +22,8 @@ curl -s https://raw.githubusercontent.com/carlosjgp/ubuntu-install-scripts/maste
 #git clone https://github.com/powerline/fonts.git --depth=1
 # install
 #cd fonts
-git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git ~/nerd-fonts
-cd nerd-fonts
-./install.sh
+git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git ~/.nerd-fonts
+~/.nerd-fonts/install.sh
 
 echo Install fuzzy finder
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf

@@ -1,7 +1,10 @@
 #!/bin/bash
 
 echo Add more APT repos
+# Oracle JDK 8
 sudo add-apt-repository ppa:webupd8team/java -y
+# Neovim
+sudo apt-add-repository ppa:neovim-ppa/stable
 
 echo Refresh repos
 sudo apt update
@@ -30,10 +33,11 @@ sudo apt install oracle-java8-installer oracle-java8-set-default -y
 echo Install fancy search commands
 sudo snap install rg
 
+# Ubuntu 18.04
 # https://github.com/ogham/exa#installation
-echo "Install cargo & exa"
-sudo snao install cargo
-cargo install exa
+#echo "Install cargo & exa"
+#sudo snap install cargo
+#cargo install exa
 
 echo Install Docker CE
 sudo apt install -y \
@@ -47,6 +51,7 @@ sudo add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
    $(lsb_release -cs) \
    stable"
+# Edege is required for Ubuntu 18.04
 sudo add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
    $(lsb_release -cs) \
