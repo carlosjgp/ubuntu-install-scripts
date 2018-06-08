@@ -39,6 +39,9 @@ sudo apt install -y \
   python3-pip \
   neovim
 
+# Install AWS CLI
+pip install --upgrade aws-cli
+
 sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
 sudo update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 60
 sudo update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 60
@@ -68,9 +71,9 @@ sudo add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
    $(lsb_release -cs) \
    edge"
-
 sudo apt-get update
 sudo apt-get install docker-ce
+sudo usermod -aG docker $USER
 
 echo Clean up packages
 sudo apt autoremove -y
