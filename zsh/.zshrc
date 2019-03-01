@@ -4,18 +4,9 @@ export TERM="xterm-256color"
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# Add python to PATH
-export PATH=$PATH:/usr/bin
-
 # For custom Go lang location
-export GOROOT=$HOME/go1.X
+export GOROOT=/usr/local/go
 export PATH=$PATH:$GOROOT/bin
-# export PATH=$PATH:/usr/local/go/bin
-
-# Crunch tooling
-export PATH=$PATH:$HOME/tools
-export PATH=$PATH:$HOME/dev/platform-cli-utils/local_dev_scripts
-export PATH=$PATH:$HOME/dev/helm-charts/scripts
 
 # Python
 PYENV_ROOT="$HOME/.pyenv"
@@ -33,9 +24,8 @@ ZSH_THEME="powerlevel9k/powerlevel9k"
 POWERLEVEL9K_MODE='awesome-fontconfig'
 POWERLEVEL9K_DISABLE_RPROMPT=true
 POWERLEVEL9K_COLOR_SCHEME=dark
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(battery custom_kube_cluster vcs newline dir)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(battery kubecontext vcs newline dir)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time)
-POWERLEVEL9K_CUSTOM_KUBE_CLUSTER="current_context=\$(kubectl config current-context);echo k8s:\$current_context:\$(kubectl config get-contexts \$current_context --no-headers=true | awk '{ print \$3 }')"
 
 
 # Set list of themes to load
@@ -88,21 +78,16 @@ HIST_STAMPS="dd/mm/yyyy"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-	autojump 
-	common-aliases 
 	git 
-	gitfast 
-	git-extrasi
 	golang
 	helm
 	kubectl 
 	python 
-	vi-mode 
 	zsh-syntax-highlighting 
-	alias-tips 
-	docker-aliases
 	history
 	history-substring-search
+	terraform
+	aws
 	)
 
 source $ZSH/oh-my-zsh.sh

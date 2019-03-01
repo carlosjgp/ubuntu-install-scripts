@@ -2,25 +2,10 @@
 
 # Dependency to be able to add repositories
 sudo apt install -y \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    software-properties-common
-
-echo Add more APT repos
-# Oracle JDK 8
-sudo add-apt-repository ppa:webupd8team/java -y
-# Neovim
-sudo apt-add-repository ppa:neovim-ppa/stable -y
-
-echo Refresh repos
-sudo apt update
-
-echo Upgrade packages first
-sudo apt upgrade -y
-
-echo Install a lot of packages
-sudo apt install -y \
+  apt-transport-https \
+  ca-certificates \
+  curl \
+  software-properties-common \
   git-core \
   zsh \
   jq \
@@ -29,36 +14,27 @@ sudo apt install -y \
   httpie \
   virtualbox \
   virtualbox-ext-pack \
-  terminator
-
-echo Install NeoVim
-sudo apt install -y \
+  terminator \
   python-dev \
   python-pip \
   python3-dev \
   python3-pip \
-  neovim
+  cargo
 
 # Install AWS CLI
-pip install --upgrade aws-cli
-
-sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
-sudo update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 60
-sudo update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 60
-
-echo Install Java 8
-echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | sudo debconf-set-selections
-sudo apt install oracle-java8-installer oracle-java8-set-default -y
+pip install --upgrade awscli
 
 # https://github.com/BurntSushi/ripgrep#installation
 echo Install fancy search commands
 sudo snap install rg
 
-# Ubuntu 18.04
-# https://github.com/ogham/exa#installation
-#echo "Install cargo & exa"
-#sudo snap install cargo
-#cargo install exa
+echo Install exa
+git clone  https://github.com/ogham/exa /tmp/exa
+cd /tmp/exa
+sudo su
+make install
+exit
+pushd
 
 echo Install Docker CE
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -72,7 +48,7 @@ sudo add-apt-repository \
    $(lsb_release -cs) \
    edge"
 sudo apt-get update
-sudo apt-get install docker-ce
+sudo apt-get install -y docker-ce
 sudo usermod -aG docker $USER
 
 echo Clean up packages

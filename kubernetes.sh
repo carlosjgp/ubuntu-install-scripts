@@ -1,10 +1,7 @@
 #!/bin/bash
 
-K8S_VERSION=v1.9.6
-HELM_VERSION=v2.8.2
-
 echo Install kubectl
-curl -LO "https://storage.googleapis.com/kubernetes-release/release/$K8S_VERSION/bin/linux/amd64/kubectl"
+curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 chmod +x ./kubectl
 sudo mv ./kubectl /usr/local/bin/kubectl
 
@@ -15,9 +12,16 @@ echo Kubectl aliases
 mkdir -p ~/aliases
 curl -s https://raw.githubusercontent.com/ahmetb/kubectl-alias/master/.kubectl_aliases > ~/aliases/kubectl_aliases
 
-echo Create Minikube with K8s 1.9.6
-minikube start --memory 8192 --cpus 2 --kubernetes-version "$K8S_VERSION"
+echo Create Minikube with K8s
+minikube start --memory 8192 --cpus 2
 
 echo Install Helm
-export DESIRED_VERSION="$HELM_VERSION"
 curl -s https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
+
+echo Install Istioctl
+wget https://github.com/istio/istio/releases/download/1.0.6/istio-1.0.6-linux.tar.gz
+tar -xvzf istio-1.0.6-linux.tar.gz
+sudo mv istio-1.0.6/bin/istioctl /usr/local/bin/
+
+echo Install fluxctl
+sudo curl https://github.com/weaveworks/flux/releases/download/1.10.1/fluxctl_linux_amd64 -o /usr/local/bin/fluxctl
