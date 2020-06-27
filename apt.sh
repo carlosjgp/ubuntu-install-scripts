@@ -1,12 +1,15 @@
 #!/bin/bash
 
+set -eo pipefail
+
 # Dependency to be able to add repositories
+# https://github.com/BurntSushi/ripgrep#installation
 sudo apt install -y \
   apt-transport-https \
   ca-certificates \
   curl \
   software-properties-common \
-  git-core \
+  git \
   zsh \
   jq \
   libgit2-dev \
@@ -15,41 +18,62 @@ sudo apt install -y \
   virtualbox \
   virtualbox-ext-pack \
   terminator \
-  python-dev \
-  python-pip \
   python3-dev \
   python3-pip \
+  build-essential \
+  libssl-dev \
+  libffi-dev \
+  ripgrep \
   cargo
 
-# Install AWS CLI
-pip install --upgrade awscli
+# We are using python3 only :D
+if ! which python &>/dev/null; then
+  ln -s /usr/bin/python3 /usr/bin/python
+fi
+if ! which pip &>/dev/null; then
+  ln -s /usr/bin/pip3 /usr/bin/pip
+fi
 
-# https://github.com/BurntSushi/ripgrep#installation
-echo Install fancy search commands
-sudo snap install rg
+if ! which aws &>/dev/null; then
+  # Install AWS CLI
+  pip install --upgrade awscli
+fi
 
-echo Install exa
-git clone  https://github.com/ogham/exa /tmp/exa
-cd /tmp/exa
-sudo su
-make install
-exit
-pushd
+if ! which exa &>/dev/null; then
+  echo Install exa
+  #  https://github.com/ogham/exa
+  cargo install exa
+  sudo ln -s ~/.cargo/bin/exa /usr/bin/exa
+ fi
 
-echo Install Docker CE
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-   $(lsb_release -cs) \
-   stable"
-# Edege is required for Ubuntu 18.04
-sudo add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-   $(lsb_release -cs) \
-   edge"
-sudo apt-get update
-sudo apt-get install -y docker-ce
-sudo usermod -aG docker $USER
+if ! which docker &>/dev/null; then
+  echo Install Docker CE
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  sudo add-apt-repository \
+     "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+     $(lsb_release -cs) \
+     stable"
+  # Edege is required for Ubuntu 18.04
+  sudo add-apt-repository \
+     "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+     $(lsb_release -cs) \
+     edge"
+  sudo apt-get update
+  sudo apt-get install -y docker-ce
+  sudo usermod -aG docker $USER
+fi
+
+if ! which google-chrome &>/dev/null; then
+  echo Install Google Chrome
+  wget -O chrome.deb https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb
+  sudo apt install ./chrome.deb
+  rm ./chrome.deb
+fi
+
+if ! which go &>/dev/null; then
+  echo Install go
+  sudo snap install go --classic
+fi
 
 echo Clean up packages
 sudo apt autoremove -y
