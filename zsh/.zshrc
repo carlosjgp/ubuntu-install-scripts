@@ -126,6 +126,6 @@ done
 alias ls="exa -lh --time-style iso"
 alias le="ls --tree"
 alias ecr-login='$(aws ecr get-login --no-include-email)'
-
+alias os-update="sudo apt update && sudo apt upgrade -y && sudo autoremove -y && pip list -o --format json | jq -r '.[].name' | xargs pip install --upgrade"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

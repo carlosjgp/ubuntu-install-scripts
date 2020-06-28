@@ -24,6 +24,15 @@ sudo apt install -y \
   libssl-dev \
   libffi-dev \
   ripgrep \
+  libgirepository1.0-dev \
+  libcairo2-dev \
+  build-essential \
+  libssl-dev \
+  libffi-dev \
+  libxml2-dev \
+  libxslt1-dev \
+  zlib1g-dev \
+  libcups2-dev \
   cargo
 
 # We are using python3 only :D
