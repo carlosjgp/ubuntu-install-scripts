@@ -35,6 +35,8 @@ sudo apt install -y \
   libcups2-dev \
   cargo
 
+chsh -s $(which zsh)
+
 # We are using python3 only :D
 if ! which python &>/dev/null; then
   ln -s /usr/bin/python3 /usr/bin/python

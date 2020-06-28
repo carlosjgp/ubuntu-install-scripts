@@ -28,6 +28,12 @@ if ! which kind &>/dev/null; then
   curl -Lo ./kind https://kind.sigs.k8s.io/dl/$(curl -sL https://api.github.com/repos/kubernetes-sigs/kind/releases/latest | jq -r '.tag_name')/kind-$(uname)-amd64
   chmod +x ./kind
   sudo mv ./kind /usr/bin/kind
+  kind create cluster test
+  sudo su
+  kind completion zsh > /usr/local/share/zsh/site-functions/_kind
+  exit
+  autoload -U compinit
+  compinit
 fi
 
 if ! which dive &>/dev/null; then
@@ -45,4 +51,3 @@ if ! which dockle &>/dev/null; then
   sudo apt install ./dockle.deb
   rm ./dockle.deb
 fi
-

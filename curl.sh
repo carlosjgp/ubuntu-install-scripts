@@ -21,8 +21,14 @@ curl -s https://raw.githubusercontent.com/carlosjgp/ubuntu-install-scripts/maste
 
 if ! test -d ~/.oh-my-zsh; then
   echo Install Oh! My zsh
-  git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
   curl -s https://raw.githubusercontent.com/carlosjgp/ubuntu-install-scripts/master/zsh/.zshrc > ~/.zshrc
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 fi
 
+if ! test -d ~/.oh-my-zsh/custom/themes/powerlevel9k; then
+  git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+fi
+
+if ! test -d ~/.oh-my-zsh/plugins/zsh-syntax-highlighting; then
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+fi
