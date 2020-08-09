@@ -1,7 +1,9 @@
 #!/bin/bash
 
-curl -s https://raw.githubusercontent.com/carlosjgp/ubuntu-install-scripts/master/apt.sh | sh
+./apt.sh
 
-curl -s https://raw.githubusercontent.com/carlosjgp/ubuntu-install-scripts/master/curl.sh | sh
+./curl.sh
 
-curl -s https://raw.githubusercontent.com/carlosjgp/ubuntu-install-scripts/master/kubernetes.sh | sh
+./kubernetes.sh
+
+sudo snap install code --classic

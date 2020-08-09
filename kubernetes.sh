@@ -12,6 +12,8 @@ if ! which minikube &>/dev/null; then
   curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
   chmod +x minikube
   sudo mv minikube /usr/local/bin/
+  minikube start --memory=8g
+  minikube stop
 fi
 
 echo Kubectl aliases
@@ -28,7 +30,6 @@ if ! which kind &>/dev/null; then
   curl -Lo ./kind https://kind.sigs.k8s.io/dl/$(curl -sL https://api.github.com/repos/kubernetes-sigs/kind/releases/latest | jq -r '.tag_name')/kind-$(uname)-amd64
   chmod +x ./kind
   sudo mv ./kind /usr/bin/kind
-  kind create cluster test
   sudo su
   kind completion zsh > /usr/local/share/zsh/site-functions/_kind
   exit

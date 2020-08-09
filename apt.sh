@@ -39,10 +39,10 @@ chsh -s $(which zsh)
 
 # We are using python3 only :D
 if ! which python &>/dev/null; then
-  ln -s /usr/bin/python3 /usr/bin/python
+  sudo ln -s /usr/bin/python3 /usr/bin/python
 fi
 if ! which pip &>/dev/null; then
-  ln -s /usr/bin/pip3 /usr/bin/pip
+  sudo ln -s /usr/bin/pip3 /usr/bin/pip
 fi
 
 if ! which aws &>/dev/null; then
@@ -54,7 +54,8 @@ if ! which exa &>/dev/null; then
   echo Install exa
   #  https://github.com/ogham/exa
   cargo install exa
-  sudo ln -s ~/.cargo/bin/exa /usr/bin/exa
+  sudo cp ~/.cargo/bin/exa /usr/bin/exa
+  sudo chmod 777 /usr/bin/exa
  fi
 
 if ! which docker &>/dev/null; then
