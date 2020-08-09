@@ -15,13 +15,14 @@ if ! test -d ~/.nerd-fonts; then
   ~/.nerd-fonts/install.sh
 fi
 
+
 echo Configure git
 curl -s https://gist.githubusercontent.com/adeekshith/cd4c95a064977cdc6c50/raw/bb54233668f5c56c1a19f0ce8faf3a89eff8c678/.git-commit-template.txt > ~/.gitmessage
 curl -s https://raw.githubusercontent.com/carlosjgp/ubuntu-install-scripts/master/git/.gitconfig > ~/.gitconfig
 
 if ! test -d ~/.oh-my-zsh; then
   echo Install Oh! My zsh
-  curl -s https://raw.githubusercontent.com/carlosjgp/ubuntu-install-scripts/master/zsh/.zshrc > ~/.zshrc
+  curl -s https://raw.githubusercontent.com/carlosjgp/ubuntu-iall-scripts/master/zsh/.zshrc > ~/.zshrc
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 fi
 
