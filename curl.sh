@@ -22,7 +22,7 @@ curl -s https://raw.githubusercontent.com/carlosjgp/ubuntu-install-scripts/maste
 
 if ! test -d ~/.oh-my-zsh; then
   echo Install Oh! My zsh
-  curl -s https://raw.githubusercontent.com/carlosjgp/ubuntu-iall-scripts/master/zsh/.zshrc > ~/.zshrc
+  curl -s https://raw.githubusercontent.com/carlosjgp/ubuntu-install-scripts/master/zsh/.zshrc > ~/.zshrc
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 fi
 
