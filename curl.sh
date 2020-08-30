@@ -15,6 +15,14 @@ if ! test -d ~/.nerd-fonts; then
   ~/.nerd-fonts/install.sh
 fi
 
+if ! which go &> /dev/null; then
+  VERSION=1.15
+  OS=linux
+  ARCH=amd64
+  wget https://golang.org/dl/go$VERSION.$OS-$ARCH.tar.gz
+  sudo tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz
+  rm go$VERSION.$OS-$ARCH.tar.gz
+fi
 
 echo Configure git
 curl -s https://gist.githubusercontent.com/adeekshith/cd4c95a064977cdc6c50/raw/bb54233668f5c56c1a19f0ce8faf3a89eff8c678/.git-commit-template.txt > ~/.gitmessage
