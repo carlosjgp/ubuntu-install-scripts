@@ -33,6 +33,8 @@ sudo apt install -y \
   libxslt1-dev \
   zlib1g-dev \
   libcups2-dev \
+  ffmpeg \
+  x264 x265 \
   cargo
 
 chsh -s $(which zsh)
@@ -80,11 +82,6 @@ if ! which google-chrome &>/dev/null; then
   wget -O chrome.deb https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb
   sudo apt install ./chrome.deb
   rm ./chrome.deb
-fi
-
-if ! which go &>/dev/null; then
-  echo Install go
-  sudo snap install go --classic
 fi
 
 echo Clean up packages

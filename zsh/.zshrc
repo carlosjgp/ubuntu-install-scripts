@@ -1,11 +1,12 @@
 # Add support for 256 color terminal
-export TERM="xterm-256color" 
+export TERM="xterm-256color"
 
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # For custom Go lang location
 export GOROOT=/usr/local/go
+export GOPATH=$HOME/.go
 export PATH=$PATH:$GOROOT/bin
 
 # Python
@@ -78,16 +79,17 @@ HIST_STAMPS="dd/mm/yyyy"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-	git 
+	git
 	golang
 	helm
-	kubectl 
-	python 
-	zsh-syntax-highlighting 
+	kubectl
+	python
+	zsh-syntax-highlighting
 	history
 	history-substring-search
 	terraform
 	aws
+	minikube
 	)
 
 source $ZSH/oh-my-zsh.sh
@@ -126,6 +128,7 @@ done
 alias ls="exa -lh --time-style iso"
 alias le="ls --tree"
 alias ecr-login='$(aws ecr get-login --no-include-email)'
-alias os-update="sudo apt update && sudo apt upgrade -y && sudo autoremove -y && pip list -o --format json | jq -r '.[].name' | xargs pip install --upgrade"
+alias os-update="sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && pip list -o --format json | jq -r '.[].name' | xargs pip install --upgrade --use-feature=2020-resolver"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+autoload -U compinit && compinit
