@@ -42,7 +42,7 @@ if ! test -d ~/.oh-my-zsh/plugins/zsh-syntax-highlighting; then
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 fi
 
-if ! test -d ~/.tfenv
+if ! test -d ~/.tfenv; then
   git clone https://github.com/tfutils/tfenv.git ~/.tfenv
 fi
 
