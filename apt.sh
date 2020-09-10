@@ -47,9 +47,9 @@ if ! which pip &>/dev/null; then
   sudo ln -s /usr/bin/pip3 /usr/bin/pip
 fi
 
-if ! which aws &>/dev/null; then
-  # Install AWS CLI
-  pip install --upgrade awscli
+if ! which pre-commit &>/dev/null; then
+  # Install pre-commit git hook
+  pip install --upgrade pre-commit
 fi
 
 if ! which exa &>/dev/null; then
@@ -67,7 +67,7 @@ if ! which docker &>/dev/null; then
      "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
      $(lsb_release -cs) \
      stable"
-  # Edege is required for Ubuntu 18.04
+  # Edge is required for Ubuntu 18.04
   sudo add-apt-repository \
      "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
      $(lsb_release -cs) \

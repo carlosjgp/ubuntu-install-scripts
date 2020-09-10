@@ -10,8 +10,13 @@ export GOPATH=$HOME/.go
 export PATH=$PATH:$GOROOT/bin
 
 # Python
-PYENV_ROOT="$HOME/.pyenv"
-PATH="$PYENV_ROOT/bin:$PATH"
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+
+# Indexlabs
+export PATH=$PATH:/home/carlosjgp/repos/indexlabs/devops-tools
+# tfenv: https://github.com/tfutils/tfenv
+export PATH="$HOME/.tfenv/bin:$PATH"
 
 # Path to your oh-my-zsh installation.
 export ZSH=/home/carlosjgp/.oh-my-zsh
@@ -128,7 +133,11 @@ done
 alias ls="exa -lh --time-style iso"
 alias le="ls --tree"
 alias ecr-login='$(aws ecr get-login --no-include-email)'
-alias os-update="sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && pip list -o --format json | jq -r '.[].name' | xargs pip install --upgrade --use-feature=2020-resolver"
+alias os-update="sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 autoload -U compinit && compinit
+
+# Indexlabs required... remove at some point
+# Delete the ~/.aws/config
+export AWS_SDK_LOAD_CONFIG=1

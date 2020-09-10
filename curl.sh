@@ -41,3 +41,31 @@ fi
 if ! test -d ~/.oh-my-zsh/plugins/zsh-syntax-highlighting; then
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 fi
+
+if ! test -d ~/.tfenv
+  git clone https://github.com/tfutils/tfenv.git ~/.tfenv
+fi
+
+if ! which terraenv &>/dev/null; then
+  wget https://github.com/aaratn/terraenv/releases/latest/download/terraenv_linux_x64.tar.gz
+  tar -xvzf terraenv_linux_x64.tar.gz
+  rm terraenv_linux_x64.tar.gz
+  sudo cp terraenv /usr/local/bin/terraenv
+fi
+
+if ! which aws &>/dev/null; then
+  # Install AWS CLI
+  # https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-install
+  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  unzip awscliv2.zip
+  rm awscliv2.zip
+  sudo ./aws/install
+fi
+
+if ! which aws-sso-fetcher &>/dev/null; then
+  curl https://github.com/flyinprogrammer/aws-sso-fetcher/releases/download/0.0.4/aws-sso-fetcher_0.0.4_linux_amd64.tar.gz \
+    -o aws-sso-fetcher.tar.gz
+  tar -C /tmp -xzf aws-sso-fetcher.tar.gz
+  rm aws-sso-fetcher.tar.gz
+  sudo cp /tmp/aws-sso-fetcher /usr/local/bin
+fi
