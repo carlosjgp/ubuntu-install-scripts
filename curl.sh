@@ -3,7 +3,7 @@
 # Go to home
 cd ~
 
-if ! which fzf &>/dev/null; then
+if ! test -d ~/.fzf; then
   echo Install fuzzy finder
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
   ~/.fzf/install
@@ -38,9 +38,6 @@ if ! test -d ~/.oh-my-zsh/custom/themes/powerlevel9k; then
   git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
 fi
 
-if ! test -d ~/.oh-my-zsh/plugins/zsh-syntax-highlighting; then
-  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-fi
 
 if ! test -d ~/.tfenv; then
   git clone https://github.com/tfutils/tfenv.git ~/.tfenv

@@ -1,5 +1,15 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Add support for 256 color terminal
 export TERM="xterm-256color"
+
+# Kubernetes
+export KUBE_EDITOR=vim
 
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -9,29 +19,37 @@ export GOROOT=/usr/local/go
 export GOPATH=$HOME/.go
 export PATH=$PATH:$GOROOT/bin
 
+# GoEnv
+export GOENV_ROOT="$HOME/.goenv"
+export PATH="$GOENV_ROOT/bin:$PATH"
+eval "$(goenv init -)"
+
 # Python
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 
 # Indexlabs
 export PATH=$PATH:/home/carlosjgp/repos/indexlabs/devops-tools
+
 # tfenv: https://github.com/tfutils/tfenv
-export PATH="$HOME/.tfenv/bin:$PATH"
+export TFENV_ROOT="$HOME/.tfenv"
+export PATH="$TFENV_ROOT/bin:$PATH"
 
 # Path to your oh-my-zsh installation.
 export ZSH=/home/carlosjgp/.oh-my-zsh
 
+# kubernetes SIG krew
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+export NVM_DIR="/home/carlosjgp/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+export ZSH_CUSTOM=$HOME/.oh-my-zsh/custom
+
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="powerlevel9k/powerlevel9k"
-
-# Powerlevel9k config
-POWERLEVEL9K_MODE='awesome-fontconfig'
-POWERLEVEL9K_DISABLE_RPROMPT=true
-POWERLEVEL9K_COLOR_SCHEME=dark
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(battery kubecontext vcs newline dir)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time)
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 
 # Set list of themes to load
@@ -89,6 +107,10 @@ plugins=(
 	helm
 	kubectl
 	python
+	nvm
+	pip
+	ubuntu
+	sudo
 	zsh-syntax-highlighting
 	history
 	history-substring-search
@@ -138,6 +160,59 @@ alias os-update="sudo apt update && sudo apt upgrade -y && sudo apt autoremove -
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 autoload -U compinit && compinit
 
-# Indexlabs required... remove at some point
-# Delete the ~/.aws/config
+# Indexlabs required
+export CI_API_V4_URL="https://gitlab.infra-shared.footballindex.co.uk/api/v4"
+export PLATFORM_CORE_UTILS_PROJECT_ID=17
+export AWS_DEFAULT_REGION=eu-west-1
+export AWS_REGION=${AWS_DEFAULT_REGION}
 export AWS_SDK_LOAD_CONFIG=1
+
+function aws-export-keys() {
+  profile=$1
+  if [[ -z "$profile" ]]; then
+    profile=${AWS_PROFILE:-"default"}
+  fi
+
+  sso_start_url=$(aws configure get sso_start_url --profile $profile)
+  sso_role_name=$(aws configure get sso_role_name --profile $profile)
+  sso_account_id=$(aws configure get sso_account_id --profile $profile)
+  sso_region=$(aws configure get sso_region --profile $profile)
+  token_cache_file=$(grep -l \"$sso_start_url\" ~/.aws/sso/cache/*)
+
+  if [[ -z "$token_cache_file" ]]; then
+    # need to login
+    echo "you need to aws sso login first"
+    return 1
+  else
+    access_token=$(jq -r '.accessToken' < $token_cache_file)
+  fi
+
+  creds=$(aws sso get-role-credentials \
+    --profile $profile \
+    --role-name $sso_role_name \
+    --account-id $sso_account_id \
+    --region $sso_region \
+    --access-token $access_token)
+
+  export AWS_ACCESS_KEY_ID=$(jq -r '.roleCredentials.accessKeyId' <<< $creds)
+  export AWS_SECRET_ACCESS_KEY=$(jq -r '.roleCredentials.secretAccessKey' <<< $creds)
+  export AWS_SESSION_TOKEN=$(jq -r '.roleCredentials.sessionToken' <<< $creds)
+  export AWS_DEFAULT_REGION=$sso_region
+}
+
+function switch-env() {
+  env=$1
+  export AWS_PROFILE=${env}
+  if ! aws iam get-caller-identity &>/dev/null; then
+    aws sso login
+  fi
+  aws-export-keys
+  k config use-context fi-${env}
+}
+
+export NVM_DIR="/home/carlosjgp/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
