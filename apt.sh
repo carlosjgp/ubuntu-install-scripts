@@ -35,47 +35,18 @@ sudo apt install -y \
   libcups2-dev \
   ffmpeg \
   x264 x265 \
-  cargo
+  exa
 
 chsh -s $(which zsh)
 
 # We are using python3 only :D
-if ! which python &>/dev/null; then
-  sudo ln -s /usr/bin/python3 /usr/bin/python
-fi
-if ! which pip &>/dev/null; then
-  sudo ln -s /usr/bin/pip3 /usr/bin/pip
-fi
-
-if ! which pre-commit &>/dev/null; then
-  # Install pre-commit git hook
-  pip install --upgrade pre-commit
-fi
-
-if ! which exa &>/dev/null; then
-  echo Install exa
-  #  https://github.com/ogham/exa
-  cargo install exa
-  sudo cp ~/.cargo/bin/exa /usr/bin/exa
-  sudo chmod 777 /usr/bin/exa
- fi
-
-if ! which docker &>/dev/null; then
-  echo Install Docker CE
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  sudo add-apt-repository \
-     "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-     $(lsb_release -cs) \
-     stable"
-  # Edge is required for Ubuntu 18.04
-  sudo add-apt-repository \
-     "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-     $(lsb_release -cs) \
-     edge"
-  sudo apt-get update
-  sudo apt-get install -y docker-ce
-  sudo usermod -aG docker $USER
-fi
+# is this the best way of doing this?
+# if ! which python &>/dev/null; then
+#   sudo ln -s /usr/bin/python3 /usr/bin/python
+# fi
+# if ! which pip &>/dev/null; then
+#   sudo ln -s /usr/bin/pip3 /usr/bin/pip
+# fi
 
 if ! which google-chrome &>/dev/null; then
   echo Install Google Chrome

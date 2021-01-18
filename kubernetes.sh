@@ -1,5 +1,22 @@
 #!/bin/bash
 
+if ! which docker &>/dev/null; then
+  echo Install Docker CE
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  sudo add-apt-repository \
+     "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+     $(lsb_release -cs) \
+     stable"
+  # Edge is required for Ubuntu 18.04
+  sudo add-apt-repository \
+     "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+     $(lsb_release -cs) \
+     edge"
+  sudo apt-get update
+  sudo apt-get install -y docker-ce
+  sudo usermod -aG docker $USER
+fi
+
 if ! which kubectl &>/dev/null; then
   echo Install kubectl
   curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl

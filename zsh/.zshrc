@@ -27,16 +27,19 @@ eval "$(goenv init -)"
 # Python
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 # Indexlabs
 export PATH=$PATH:/home/carlosjgp/repos/indexlabs/devops-tools
-
 # tfenv: https://github.com/tfutils/tfenv
-export TFENV_ROOT="$HOME/.tfenv"
-export PATH="$TFENV_ROOT/bin:$PATH"
+export PATH="$HOME/.tfenv/bin:$PATH"
 
 # Path to your oh-my-zsh installation.
 export ZSH=/home/carlosjgp/.oh-my-zsh
+
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
 
 # kubernetes SIG krew
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
@@ -159,56 +162,6 @@ alias os-update="sudo apt update && sudo apt upgrade -y && sudo apt autoremove -
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 autoload -U compinit && compinit
-
-# Indexlabs required
-export CI_API_V4_URL="https://gitlab.infra-shared.footballindex.co.uk/api/v4"
-export PLATFORM_CORE_UTILS_PROJECT_ID=17
-export AWS_DEFAULT_REGION=eu-west-1
-export AWS_REGION=${AWS_DEFAULT_REGION}
-export AWS_SDK_LOAD_CONFIG=1
-
-function aws-export-keys() {
-  profile=$1
-  if [[ -z "$profile" ]]; then
-    profile=${AWS_PROFILE:-"default"}
-  fi
-
-  sso_start_url=$(aws configure get sso_start_url --profile $profile)
-  sso_role_name=$(aws configure get sso_role_name --profile $profile)
-  sso_account_id=$(aws configure get sso_account_id --profile $profile)
-  sso_region=$(aws configure get sso_region --profile $profile)
-  token_cache_file=$(grep -l \"$sso_start_url\" ~/.aws/sso/cache/*)
-
-  if [[ -z "$token_cache_file" ]]; then
-    # need to login
-    echo "you need to aws sso login first"
-    return 1
-  else
-    access_token=$(jq -r '.accessToken' < $token_cache_file)
-  fi
-
-  creds=$(aws sso get-role-credentials \
-    --profile $profile \
-    --role-name $sso_role_name \
-    --account-id $sso_account_id \
-    --region $sso_region \
-    --access-token $access_token)
-
-  export AWS_ACCESS_KEY_ID=$(jq -r '.roleCredentials.accessKeyId' <<< $creds)
-  export AWS_SECRET_ACCESS_KEY=$(jq -r '.roleCredentials.secretAccessKey' <<< $creds)
-  export AWS_SESSION_TOKEN=$(jq -r '.roleCredentials.sessionToken' <<< $creds)
-  export AWS_DEFAULT_REGION=$sso_region
-}
-
-function switch-env() {
-  env=$1
-  export AWS_PROFILE=${env}
-  if ! aws iam get-caller-identity &>/dev/null; then
-    aws sso login
-  fi
-  aws-export-keys
-  k config use-context fi-${env}
-}
 
 export NVM_DIR="/home/carlosjgp/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

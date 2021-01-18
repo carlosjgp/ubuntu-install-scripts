@@ -14,7 +14,14 @@ cp ./zsh/.p10k.zsh
 ./dev-tools.sh
 
 sudo snap install code --classic
-
 sudo snap install slack --classic
+sudo snap install intellij-idea-ultimate --classic
 
-sudo snap install vlc
+sudo snap install audible-for-linux \
+    authy \
+    dbeaver-ce \
+    eclipse \
+    telegram-desktop \
+    todoist \
+    vlc \
+    yq

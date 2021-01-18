@@ -6,9 +6,9 @@ GOSS_VERSION=v0.3.13
 PACKER_VERSION=1.5.5
 PACKER_GOSS_VERSION=v2.0.0
 RUN_VERSION=0.7.1
-TERRAFORM_VERSION=0.12.28
-TERRAGRUNT_VERSION=0.22.3
-TFSEC_VERSION=v0.25.0
+TERRAFORM_VERSION=0.13.5
+TERRAGRUNT_VERSION=0.26.2
+TFSEC_VERSION=v0.36.6
 TRIVY_VERSION=v0.9.2
 
 # NodeJS
@@ -83,3 +83,8 @@ sudo chmod 755 /usr/local/bin/sops
 
 # Install trivy
 sudo curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/master/contrib/install.sh | sh -s -- -b /usr/local/bin ${TRIVY_VERSION}
+
+if ! which pre-commit &>/dev/null; then
+  # Install pre-commit git hook
+  pip install --upgrade pre-commit
+fi
