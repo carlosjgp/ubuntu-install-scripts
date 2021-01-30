@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -eo pipefail
+source ${BASH_SOURCE%/*}/_functions.sh
 
-# Dependency to be able to add repositories
-# https://github.com/BurntSushi/ripgrep#installation
+sudo apt update
 sudo apt install -y \
   apt-transport-https \
   ca-certificates \
@@ -12,6 +12,7 @@ sudo apt install -y \
   git \
   zsh \
   jq \
+  unzip \
   libgit2-dev \
   cmake \
   httpie \
@@ -34,26 +35,18 @@ sudo apt install -y \
   zlib1g-dev \
   libcups2-dev \
   ffmpeg \
-  x264 x265 \
-  exa
+  x264 x265 #\
+  #exa
 
-chsh -s $(which zsh)
-
-# We are using python3 only :D
-# is this the best way of doing this?
-# if ! which python &>/dev/null; then
-#   sudo ln -s /usr/bin/python3 /usr/bin/python
-# fi
-# if ! which pip &>/dev/null; then
-#   sudo ln -s /usr/bin/pip3 /usr/bin/pip
-# fi
-
-if ! which google-chrome &>/dev/null; then
-  echo Install Google Chrome
-  wget -O chrome.deb https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb
-  sudo apt install ./chrome.deb
-  rm ./chrome.deb
+# AppImage Launcher
+if ! cliExists AppImageLauncher; then
+  addPPA ppa:appimagelauncher-team/stable
+  sudo apt install -y \
+    appimagelauncher
 fi
+
+# Set ZSH as default SHELL
+[ ! "$SHELL" = $(which zsh) ] && chsh -s $(which zsh)
 
 echo Clean up packages
 sudo apt autoremove -y
