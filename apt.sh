@@ -35,7 +35,8 @@ sudo apt install -y \
   zlib1g-dev \
   libcups2-dev \
   ffmpeg \
-  x264 x265 #\
+  x264 x265 \
+  xclip #\
   #exa
 
 # AppImage Launcher

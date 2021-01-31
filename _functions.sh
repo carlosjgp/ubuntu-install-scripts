@@ -56,14 +56,14 @@ function latestGithubReleaseURI() {
   local repo=$1
   local file=$2
   local apiCall="https://api.github.com/repos/$repo/releases/latest"
-  local grepRegEx="https://.+?/$file"
-  echo $(curl -Ls $apiCall | grep -o -E $grepRegEx)
+  local grepRegEx="https://.+?$file"
+  echo $(curl -u $GITHUB_USER:$GITHUB_TOKEN -Ls $apiCall | grep -o -E $grepRegEx)
 }
 
 function downloadBinary() {
   local url=$1
   local defaultTarget=$(rev $url | cut -d "/" -f 1 | rev)
-  local target=${2:-defaultTarget}
+  local target=${2:-$defaultTarget}
   local path=${3:-"/usr/local/bin"}
   local binary=$path/$target
   sudo wget -O $binary $url

@@ -2,7 +2,6 @@
 
 set -eo pipefail
 source ${BASH_SOURCE%/*}/../_functions.sh
-set -x
 
 # Terraform and Terrqgrunt
 ## terraenv
@@ -14,37 +13,42 @@ if ! cliExists terraenv; then
 fi
 if ! rg TERRA_PATH ~/.zshrc &>/dev/null; then
   echo 'export TERRA_PATH="$HOME/.terraenv"' >> ~/.zshrc
-  exec $SHELL
 fi
 ## TODO: needs to be fixed with a PR
 ## Install Terraform
-sudo TERRA_PATH="/home/carlosjgp/.terraenv" terraenv terraform install $(terraenv terraform list remote | tail -1)
-## Install 
-sudo TERRA_PATH="/home/carlosjgp/.terraenv" terraenv terragrunt install $(terraenv terragrunt list remote | tail -1)
-
+if ! cliExists terraform; then
+  sudo TERRA_PATH="/home/carlosjgp/.terraenv" terraenv terraform install $(terraenv terraform list remote | tail -1)
+fi
+if ! cliExists terragrunt; then
+  ## Install
+  sudo TERRA_PATH="/home/carlosjgp/.terraenv" terraenv terragrunt install $(terraenv terragrunt list remote | tail -1)
+fi
 
 # Install tfsec
-echo $(latestGithubReleaseURI liamg/tfsec tfsec-linux-amd64)
-downloadBinary $(latestGithubReleaseURI liamg/tfsec tfsec-linux-amd64) tfsec
-downloadBinary $(latestGithubReleaseURI liamg/tfsec tfsec-checkgen-linux-amd64) tfsec-checkgen
-
+if ! cliExists tfsec; then
+  downloadBinary $(latestGithubReleaseURI liamg/tfsec tfsec-linux-amd64) tfsec
+  downloadBinary $(latestGithubReleaseURI liamg/tfsec tfsec-checkgen-linux-amd64) tfsec-checkgen
+fi
 
 # Install TFLint
-tflintUri=$(latestGithubReleaseURI terraform-linters/tflint _linux_amd64.zip)
-folder=$(download $tflintUri tflint.zip)
-unzip $folder/tflint.zip -d $folder
-sudo mv $folder/tflint /usr/local/bin
-
+if ! cliExists tflint; then
+  tflintUri=$(latestGithubReleaseURI terraform-linters/tflint _linux_amd64.zip)
+  folder=$(download $tflintUri tflint.zip)
+  unzip $folder/tflint.zip -d $folder
+  sudo mv $folder/tflint /usr/local/bin
+fi
 
 # Install run
-runUri=$(latestGithubReleaseURI TekWizely/run _linux_amd64.tar.gz)
-folder=$(download $runUri run.tar.gz)
-sudo tar -C /usr/local/bin/ -xzf $folder/run.tar.gz
-
+if ! cliExists run; then
+  runUri=$(latestGithubReleaseURI TekWizely/run _linux_amd64.tar.gz)
+  folder=$(download $runUri run.tar.gz)
+  sudo tar -C /usr/local/bin/ -xzf $folder/run.tar.gz
+fi
 
 # Install sops
-downloadBinary $(latestGithubReleaseURI mozilla/sops linux) sops
-
+if ! cliExits sops; then
+  downloadBinary $(latestGithubReleaseURI mozilla/sops linux) sops
+fi
 
 # Install trivy
 if ! cliExists trivy; then
@@ -69,10 +73,6 @@ if ! cliExists aws; then
   sudo ./aws/install
 fi
 
-if ! cliExists aws-sso-fetcher; then
-  curl https://github.com/flyinprogrammer/aws-sso-fetcher/releases/download/0.0.4/aws-sso-fetcher_0.0.4_linux_amd64.tar.gz \
-    -o aws-sso-fetcher.tar.gz
-  tar -C /tmp -xzf aws-sso-fetcher.tar.gz
-  rm aws-sso-fetcher.tar.gz
-  sudo cp /tmp/aws-sso-fetcher /usr/local/bin
+if ! cliExists aws-vault; then
+  downloadBinary $(latestGithubReleaseURI 99designs/aws-vault aws-vault-linux-amd64) aws-vault
 fi

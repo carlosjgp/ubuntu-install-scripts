@@ -35,9 +35,18 @@ if ! folderExists ~/.oh-my-zsh; then
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 fi
 
-zshThemesPath="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes"
+zshCustomPath="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+zshThemesPath="$zshCustomPath/themes"
 if ! folderExists $zshThemesPath/powerlevel10k; then
   cloneGit https://github.com/romkatv/powerlevel10k.git $zshThemesPath/powerlevel10k
+fi
+
+
+if ! folderExists $zshCustomPath/plugins/zsh-autosuggestions; then
+git clone https://github.com/zsh-users/zsh-autosuggestions $zshCustomPath/plugins/zsh-autosuggestions
+fi
+if ! folderExists $zshCustomPath/plugins/zsh-syntax-highlighting; then
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $zshCustomPath/plugins/zsh-syntax-highlighting
 fi
 
 if ! rg powerlevel10k ~/.zshrc &>/dev/null; then
@@ -97,6 +106,7 @@ fi
   # )
 
 info Configure Terminator
+mkdir -p ~/.config/terminator
 cat > ~/.config/terminator/config <<CONFIG
 [global_config]
 [keybindings]

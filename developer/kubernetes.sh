@@ -47,13 +47,11 @@ fi
 
 if ! cliExists kind; then
   echo Install KinD
-  curl -Lo ./kind https://kind.sigs.k8s.io/dl/$(curl -sL https://api.github.com/repos/kubernetes-sigs/kind/releases/latest | jq -r '.tag_name')/kind-$(uname)-amd64
+  curl -Lo ./kind https://kind.sigs.k8s.io/dl/$(curl -u $GITHUB_USER:$GITHUB_TOKEN -sL https://api.github.com/repos/kubernetes-sigs/kind/releases/latest | jq -r '.tag_name')/kind-$(uname)-amd64
   chmod +x ./kind
   sudo mv ./kind /usr/bin/kind
-  sudo kind completion zsh > /usr/local/share/zsh/site-functions/_kind
-  exit
-  autoload -U compinit
-  compinit
+  mkdir -p $ZSH/completions/
+  kind completion zsh > $ZSH/completions/_kind
 fi
 
 if ! cliExists dive; then

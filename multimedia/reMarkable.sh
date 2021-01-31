@@ -5,6 +5,7 @@ source ${BASH_SOURCE%/*}/../_functions.sh
 
 if ! cliExists reMarkable; then
   sudo apt install -y \
+    libqt5xml5 \
     libqt5quick5 \
     libkf5archive5 \
     libqt5websockets5 \

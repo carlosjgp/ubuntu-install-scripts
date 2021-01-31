@@ -12,7 +12,7 @@ fi
 if ! cliExists xdman; then
   target=xdm.tar.xz
   folder=$(download https://github.com/subhra74/xdm/releases/download/7.2.11/xdm-setup-7.2.11.tar.xz $target)
-  tar $folder/$target -C $folder
+  tar -xvf $folder/$target -C $folder
   sudo $folder/install.sh
 fi
 
