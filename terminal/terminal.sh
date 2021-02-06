@@ -40,8 +40,6 @@ zshThemesPath="$zshCustomPath/themes"
 if ! folderExists $zshThemesPath/powerlevel10k; then
   cloneGit https://github.com/romkatv/powerlevel10k.git $zshThemesPath/powerlevel10k
 fi
-
-
 if ! folderExists $zshCustomPath/plugins/zsh-autosuggestions; then
 git clone https://github.com/zsh-users/zsh-autosuggestions $zshCustomPath/plugins/zsh-autosuggestions
 fi
@@ -55,7 +53,7 @@ if ! rg powerlevel10k ~/.zshrc &>/dev/null; then
 fi
 
 info Configure ZSH plugins
-sed -i 's/plugins=\((.*)\)/plugins=(git golang helm kubectl python nvm pip ubuntu sudo zsh-syntax-highlighting history history-substring-search terraform aws minikube)/g' ~/.zshrc
+sed -i 's/plugins=\((.*)\)/plugins=(git git-extras golang helm kubectl python nvm pip ubuntu sudo zsh-syntax-highlighting history history-substring-search terraform aws minikube)/g' ~/.zshrc
 
 
 if ! rg os-update ~/.zshrc &>/dev/null; then

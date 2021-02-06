@@ -10,6 +10,7 @@ sudo apt install -y \
   curl \
   software-properties-common \
   git \
+  git-extras \
   zsh \
   jq \
   unzip \
