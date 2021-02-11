@@ -33,6 +33,7 @@ sudo apt install -y \
   libffi-dev \
   libxml2-dev \
   libxslt1-dev \
+  vim \
   zlib1g-dev \
   libcups2-dev \
   ffmpeg \

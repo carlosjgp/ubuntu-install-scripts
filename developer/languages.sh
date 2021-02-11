@@ -8,7 +8,7 @@ NVM_VERSION=0.37.2
 # Golang
 ## goenv
 if ! folderExists ~/.goenv; then
-  git clone https://github.com/syndbg/goenv.git ~/.goenv 
+  git clone https://github.com/syndbg/goenv.git ~/.goenv
 fi
 ### Register goenv
 if ! rg goenv ~/.zshrc &>/dev/null; then
@@ -54,10 +54,8 @@ export NVM_DIR="\$HOME/.nvm"
 [ -s "\$NVM_DIR/bash_completion" ] && \. "\$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 CONFIG
 fi
-if ! cliExists node; then
-  ## Install nodejs
-  nvm install --lts --default
-fi
+## Install nodejs
+nvm install --lts --default
 
 # Java
 ## jenv

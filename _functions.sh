@@ -3,7 +3,8 @@
 function download(){
   local tmpDir=$(mktemp -d)
   local url=$1
-  local target=$2 # Could be empty
+  local defaultTarget=$(echo $url | rev | cut -d '/' -f 1 | rev)
+  local target=${2:-$defaultTarget}
 
   wget -O $tmpDir/$target $url
   echo $tmpDir

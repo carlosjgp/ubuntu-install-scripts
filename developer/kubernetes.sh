@@ -40,7 +40,7 @@ echo Kubectl aliases
 mkdir -p ~/aliases
 curl -s https://raw.githubusercontent.com/ahmetb/kubectl-alias/master/.kubectl_aliases > ~/aliases/kubectl_aliases
 
-if ! cliExists Helm; then
+if ! cliExists helm; then
   echo Install Helm
   curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 fi
@@ -71,21 +71,21 @@ if ! cliExists dockle; then
 fi
 
 
+if ! cliExists kubectl-krew; then
 (
-  set -x; cd "$(mktemp -d)" &&
+  cd "$(mktemp -d)" &&
   curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew.tar.gz" &&
   tar zxvf krew.tar.gz &&
   KREW=./krew-"$(uname | tr '[:upper:]' '[:lower:]')_$(uname -m | sed -e 's/x86_64/amd64/' -e 's/arm.*$/arm/')" &&
   "$KREW" install krew
 )
+fi
 
-if ! rg KREW_ROOT ~/.zshrc; then
+if ! rg KREW_ROOT ~/.zshrc &>/dev/null ; then
   echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' >> ~/.zshrc
-  exec $SHELL
 fi
 
 
-if ! rg KUBE_EDITOR ~/.zshrc; then
+if ! rg KUBE_EDITOR ~/.zshrc &>/dev/null; then
   echo 'export KUBE_EDITOR=vim' >> ~/.zshrc
-  exec $SHELL
 fi

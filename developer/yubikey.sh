@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eopipefail
+set -eo pipefail
 source ${BASH_SOURCE%/*}/../_functions.sh
 
 sudo apt-get install libpam-u2f

@@ -20,6 +20,11 @@ if ! folderExists ~/.fzf; then
   ~/.fzf/install
 fi
 
+if ! folderExists ~/.vim_runtime; then
+  git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
+  sh ~/.vim_runtime/install_awesome_vimrc.sh
+fi
+
 if ! folderExists ~/.nerd-fonts; then
   info Install Nerd fonts
   cloneGit https://github.com/ryanoasis/nerd-fonts.git ~/.nerd-fonts
