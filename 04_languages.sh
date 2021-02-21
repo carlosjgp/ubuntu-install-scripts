@@ -5,6 +5,17 @@ source ${BASH_SOURCE%/*}/../_functions.sh
 
 NVM_VERSION=0.37.2
 
+echo Configure git
+curl -s https://gist.githubusercontent.com/adeekshith/cd4c95a064977cdc6c50/raw/bb54233668f5c56c1a19f0ce8faf3a89eff8c678/.git-commit-template.txt > ~/.gitmessage
+curl -s https://raw.githubusercontent.com/carlosjgp/ubuntu-install-scripts/master/git/.gitconfig > ~/.gitconfig
+
+if ! cliExists git-tree; then
+  getLatestGithubBinary google/git-tree git-tree
+  cat >> ~/.zshrc <<CONFIG
+alias git-tree='git-tree -- --format="%C(auto)%h %d %<(50,trunc)%s"'
+CONFIG
+fi
+
 # Golang
 ## goenv
 if ! folderExists ~/.goenv; then
