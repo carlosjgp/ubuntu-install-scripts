@@ -5,17 +5,15 @@ source ${BASH_SOURCE%/*}/../_functions.sh
 
 # Exa is only available on APT from Ubuntu 20.10 onwards
 if ! cliExists exa; then
-  info Install EXA
+  echo Install EXA
   EXA_V="0.9.0"
-  url=https://github.com/ogham/exa/releases/download/v$EXA_V/exa-linux-x86_64-$EXA_V.zip
-  folder=$(download $url exa.zip)
-  unzip $folder/exa.zip -d $folder
+  folder=$(downloadZip https://github.com/ogham/exa/releases/download/v$EXA_V/exa-linux-x86_64-$EXA_V.zip)
   sudo mv $folder/exa-linux-x86_64 /usr/local/bin/exa
 fi
 
 
 if ! folderExists ~/.fzf; then
-  info Install fuzzy finder
+  echo Install fuzzy finder
   cloneGit https://github.com/junegunn/fzf.git ~/.fzf
   ~/.fzf/install
 fi
@@ -26,17 +24,17 @@ if ! folderExists ~/.vim_runtime; then
 fi
 
 if ! folderExists ~/.nerd-fonts; then
-  info Install Nerd fonts
+  echo Install Nerd fonts
   cloneGit https://github.com/ryanoasis/nerd-fonts.git ~/.nerd-fonts
   ~/.nerd-fonts/install.sh
 fi
 
-info Configure git
+echo Configure git
 curl -s https://gist.githubusercontent.com/adeekshith/cd4c95a064977cdc6c50/raw/bb54233668f5c56c1a19f0ce8faf3a89eff8c678/.git-commit-template.txt > ~/.gitmessage
 curl -s https://raw.githubusercontent.com/carlosjgp/ubuntu-install-scripts/master/git/.gitconfig > ~/.gitconfig
 
 if ! folderExists ~/.oh-my-zsh; then
-  info Install Oh! My zsh
+  echo Install Oh! My zsh
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 fi
 
@@ -53,19 +51,24 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $zshCustomPat
 fi
 
 if ! rg powerlevel10k ~/.zshrc &>/dev/null; then
-  info Configure Oh My Zsh Theme
+  echo Configure Oh My Zsh Theme
   sed -i 's/ZSH_THEME=".*"/ZSH_THEME="powerlevel10k\/powerlevel10k"/g' ~/.zshrc
 fi
 
-info Configure ZSH plugins
+echo Configure ZSH plugins
 sed -i 's/plugins=\((.*)\)/plugins=(git git-extras golang helm kubectl python nvm pip ubuntu sudo zsh-syntax-highlighting history history-substring-search terraform aws minikube)/g' ~/.zshrc
 
-
+mkdir -p $HOME/bin
 if ! rg os-update ~/.zshrc &>/dev/null; then
   cat >> ~/.zshrc <<CONFIG
+export PATH=\$HOME/bin:\$PATH
+
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+
 for f in $(exa -a ~/aliases); do
   source ~/aliases/$f
 done
+
 alias ls="exa -lh --time-style iso"
 alias le="ls --tree"
 alias ecr-login='\$(aws ecr get-login --no-include-email)'
@@ -108,7 +111,7 @@ fi
   #   newline                   # \n
   # )
 
-info Configure Terminator
+echo Configure Terminator
 mkdir -p ~/.config/terminator
 cat > ~/.config/terminator/config <<CONFIG
 [global_config]
@@ -131,3 +134,5 @@ cat > ~/.config/terminator/config <<CONFIG
       parent = window0
 [plugins]
 CONFIG
+
+shutdown -r 0

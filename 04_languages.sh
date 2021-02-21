@@ -22,17 +22,28 @@ GO_V=$(goenv install -l | rg -v beta | tail -1 | awk '{$1=$1};1')
 cliExists go && (go version | rg $GO_V) && goenv install $GO_V
 
 
-# Python
-## Set Python3 as default
-sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
-sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
-
 ## pyenv
 if ! folderExists ~/.pyenv; then
+  sudo apt-get update
+  sudo apt-get install -y --no-install-recommends \
+    make \
+    build-essential \
+    libssl-dev \
+    zlib1g-dev \
+    libbz2-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    wget \
+    curl \
+    llvm \
+    libncurses5-dev \
+    xz-utils \
+    tk-dev \
+    libxml2-dev \
+    libxmlsec1-dev \
+    libffi-dev \
+    liblzma-dev
   curl https://pyenv.run | bash
-
-  # install python
-  # ??
 fi
 if ! rg pyenv ~/.zshrc &>/dev/null; then
   cat >> ~/.zshrc <<CONFIG
@@ -41,6 +52,15 @@ eval "\$(pyenv init -)"
 eval "\$(pyenv virtualenv-init -)"
 CONFIG
 fi
+# install python
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+# Install latest Python 3.8
+python_v=$(pyenv install -l | grep "^  3\\.8\\." | grep -v dev | tail -1)
+pyenv install $python_v
+pyenv global $python_v
 
 # NodeJs
 if ! folderExists ~/.nvm; then

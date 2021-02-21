@@ -3,28 +3,26 @@
 set -eo pipefail
 source ${BASH_SOURCE%/*}/../_functions.sh
 
-if ! cliExists docker; then
-  echo Install Docker CE
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  sudo add-apt-repository \
-     "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-     $(lsb_release -cs) \
-     stable"
-  # Edge is required for Ubuntu 18.04
-  sudo add-apt-repository \
-     "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-     $(lsb_release -cs) \
-     edge"
-  sudo apt update
-  sudo apt install -y docker-ce
-  sudo usermod -aG docker $USER
-fi
 
 if ! cliExists kubectl; then
   echo Install kubectl
   curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
   chmod +x ./kubectl
   sudo mv ./kubectl /usr/local/bin/kubectl
+fi
+
+echo"Install Garden.io CLI"
+curl -sL https://get.garden.io/install.sh | bash
+
+echo"Install kubectx and kubens required for k9s"
+if ! cliExists kubectx; then
+  getLatestGithubTarGZ() ahmetb/kubectx kubectx_*_linux_arm64.tar.gz kubectx
+fi
+if ! cliExists kubens; then
+  getLatestGithubTarGZ() ahmetb/kubectx kubens_*_linux_arm64.tar.gz kubens
+fi
+if ! cliExists k9s; then
+  getLatestGithubTarGZ() derailed/k9s k9s_Linux_x86_64.tar.gz k9s
 fi
 
 if ! cliExists minikube; then
@@ -49,17 +47,18 @@ if ! cliExists kind; then
   echo Install KinD
   curl -Lo ./kind https://kind.sigs.k8s.io/dl/$(curl -u $GITHUB_USER:$GITHUB_TOKEN -sL https://api.github.com/repos/kubernetes-sigs/kind/releases/latest | jq -r '.tag_name')/kind-$(uname)-amd64
   chmod +x ./kind
-  sudo mv ./kind /usr/bin/kind
+  mv ./kind $HOME/kind
   mkdir -p $ZSH/completions/
   kind completion zsh > $ZSH/completions/_kind
 fi
 
 if ! cliExists dive; then
   echo Install Dive
-  dive_deb=$(curl -sL https://api.github.com/repos/wagoodman/dive/releases/latest | jq -r '.assets[].browser_download_url' | grep linux_amd64.deb)
-  wget -O ./dive.deb $dive_deb
-  sudo apt install ./dive.deb
-  rm ./dive.deb
+  getLatestGithubDeb wagoodman/dive linux_amd64.deb
+  # dive_deb=$(curl -sL https://api.github.com/repos/wagoodman/dive/releases/latest | jq -r '.assets[].browser_download_url' | grep linux_amd64.deb)
+  # wget -O ./dive.deb $dive_deb
+  # sudo apt install ./dive.deb
+  # rm ./dive.deb
 fi
 
 if ! cliExists dockle; then
